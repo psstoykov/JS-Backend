@@ -30,15 +30,20 @@ const movieSchema = new Schema({
         required: true,
         maxLength: 1000
     },
-    imageUrl:{
-type:String,
-required: true
+    imageURL: {
+        type: String,
+        required: true,
+        RegExp: /^https?\/\/.+/
     },
-    cast:{
-        type:Typ
+    cast: {
+        type: [Types.ObjectId],
+        ref: 'Cast',
+        default: []
     }
 })
 
-module.exports={
-    movieSche
+const Movie = model('Movie', movieSchema)
+
+module.exports = {
+    Movie
 }
