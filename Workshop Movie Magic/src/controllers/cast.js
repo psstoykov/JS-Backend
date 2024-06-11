@@ -1,9 +1,11 @@
 module.exports = {
 
-    createGet: (req, res) => {
-        res.render('create-cast');
+    createCastGet: (req, res) => {
+        res.render('cast-create');
     },
-    createPost: (req, res) => {
+    createCastPost: async (req, res) => {
 
+        console.log(req.body);
+        res.end();
     }
 }

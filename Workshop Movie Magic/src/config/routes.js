@@ -4,6 +4,7 @@ const { about } = require('../controllers/about');
 const { createGet, createPost } = require('../controllers/movie');
 const { notFound } = require('../controllers/404');
 const { search } = require('../controllers/catalogue');
+const { createCastGet, createCastPost } = require('../controllers/cast');
 
 const router = Router();
 
@@ -12,7 +13,8 @@ router.get('/details/:id', details);
 router.get('/about', about);
 router.get('/create/movie', createGet)
 router.post('/create/movie', createPost);
-//TODO POST create cast
+router.get('/create/cast', createCastGet);
+router.post('/create/cast', createCastPost);
 router.get('/search', search);
 
 router.get('*', notFound);
