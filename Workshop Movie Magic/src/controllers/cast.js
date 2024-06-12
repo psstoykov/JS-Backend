@@ -1,3 +1,5 @@
+const { createCast } = require('../services/cast')
+
 module.exports = {
 
     createCastGet: (req, res) => {
@@ -5,7 +7,18 @@ module.exports = {
     },
     createCastPost: async (req, res) => {
 
-        console.log(req.body);
-        res.end();
+        const errors = {
+            name: !req.body.name,
+            age: !req.body.age,
+            born: !req.body.born,
+            nameInMovie: !req.body.nameInMovie,
+            imageUrl: !req.body.imageUrl
+        }
+
+        if (Object.values(errors).includes(true)) {
+            res.render('cast-create', { cast: req.body, errors })
+        }
+        const result = await createCast(req.body);
+        res.redirect('/');
     }
 }
