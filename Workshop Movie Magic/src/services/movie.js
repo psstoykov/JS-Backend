@@ -27,6 +27,7 @@ async function createMovie(movieData) {
 }
 
 async function attachCastToMovie(movieId, castId) {
+
     const movie = await Movie.findById(movieId);
 
     if (!movie) {
@@ -39,6 +40,7 @@ async function attachCastToMovie(movieId, castId) {
 
     return movie;
 }
+
 
 module.exports = {
     getAllMovies,
