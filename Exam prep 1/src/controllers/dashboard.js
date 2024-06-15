@@ -15,12 +15,13 @@ module.exports = {
     details: async (req, res) => {
         const id = req.params.id;
         const stone = await getStoneById(id);
-        console.log(req)
 
         if (!stone) {
             res.render('404')
         }
         stone.isAuthor = req.user && req.user._id == stone.owner.toString();
+        //TODO add hasLiked functionality
+        console.log(stone)
         res.render('details', { stone });
 
     }
