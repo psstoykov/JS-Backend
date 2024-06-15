@@ -1,12 +1,13 @@
+<main class="login">
 <!-- Login Page (Only for Guest users) -->
 <section id="login">
     <div class="form">
         <h2>Login</h2>
         <form method="post" class="login-form">
-            <input type="text" name="" id="email" placeholder="email" />
+            <input type="text" name="email" id="email" placeholder="email" {{#if error}} value="{{data.email}}"{{/if}}/>
             <input
                 type="password"
-                name=""
+                name="password"
                 id="password"
                 placeholder="password"
             />
@@ -18,3 +19,5 @@
         </form>
     </div>
 </section>
+
+</main>

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
+require('../models/user');
+require('../models/stones')
 
-//TODO - require the models for the data base
+
 const connectionString = 'mongodb://localhost:27017/earth-treasure';
 
 async function configDatabase() {
