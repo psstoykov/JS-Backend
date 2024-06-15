@@ -14,7 +14,7 @@ const StoneSchema = new Schema(
             type: String,
             required: true
         },
-        image: {
+        imageURL: {
             type: String,
             required: true
         },
@@ -31,8 +31,9 @@ const StoneSchema = new Schema(
             required: true
         },
         likedList: {
-            type: Types.ObjectId,
-            ref: 'User'
+            type: [Types.ObjectId],
+            ref: 'User',
+            default: []
         },
         owner: {
             type: Types.ObjectId,
