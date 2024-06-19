@@ -23,7 +23,7 @@ const volcanoSchema = new Schema({
     },
     typeVolcano: {
         type: String,
-        enum: [Supervolcanoes, Submarine, Subglacial, Mud, Stratovolcanoes, Shield],
+        enum: ['Supervolcanoes', 'Submarine', 'Subglacial', 'Mud', 'Stratovolcanoes', 'Shield'],
         required: true
     },
     description: {
@@ -40,3 +40,8 @@ const volcanoSchema = new Schema({
         ref: 'user'
     },
 })
+
+const Volcano = model('Volcano', volcanoSchema);
+
+
+module.exports = { Volcano }
