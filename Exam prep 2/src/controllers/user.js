@@ -31,7 +31,6 @@ userRouter.post(
 
             const user = await register(username, email, password);
             const token = createToken(user);
-            console.log(user, token)
 
             res.cookie('token', token, { httpOnly: true });
             res.redirect('/');

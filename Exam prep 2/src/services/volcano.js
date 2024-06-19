@@ -7,7 +7,7 @@ async function getAllVolcanos() {
 }
 
 async function getVolcanoById(id) {
-    const volcano = await Volcano.findById(id).lean().populate('cast');
+    const volcano = await Volcano.findById(id).lean();
     return volcano;
 };
 
@@ -15,8 +15,8 @@ async function createVolcano(volcanoData, authorId) {
     const volcano = new Volcano({
         name: volcanoData.name,
         location: volcanoData.location,
-        elevation: Number(volcanoData.elavation),
-        lastEruption: Number(volcanoData.eruption),
+        elevation: Number(volcanoData.elevation),
+        lastEruption: Number(volcanoData.lastEruption),
         image: volcanoData.image,
         typeVolcano: volcanoData.typeVolcano,
         description: volcanoData.description,
