@@ -7,7 +7,7 @@ async function getAllVolcanos() {
 }
 
 async function getVolcanoById(id) {
-    const volcano = await Volcano.findById(id).lean();
+    const volcano = await Volcano.findById(id).lean().populate();
     return volcano;
 };
 

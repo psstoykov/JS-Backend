@@ -64,7 +64,7 @@ userRouter.post('/login', isGuest(),
             return;
         }
     });
-
+//TODO something doesn't work with logout while at details
 userRouter.get('/logout', (req, res) => {
     res.clearCookie('token');
     res.redirect('/');
