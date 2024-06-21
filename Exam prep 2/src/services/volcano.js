@@ -11,6 +11,10 @@ async function getVolcanoById(id) {
     return volcano;
 };
 
+async function getByAuthorId(authorId) {
+    return Volcano.find({ owner: authorId }).lean();
+}
+
 async function createVolcano(volcanoData, authorId) {
     const volcano = new Volcano({
         name: volcanoData.name,
@@ -94,6 +98,7 @@ async function deleteVolcano(volcanoId, userId) {
 module.exports = {
     getAllVolcanos,
     getVolcanoById,
+    getByAuthorId,
     createVolcano,
     updateVolcano,
     addVote,

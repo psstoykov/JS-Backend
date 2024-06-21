@@ -9,10 +9,13 @@ function configRoutes(app) {
     //TODO attach the specific routes from your app
     //example app.get('/', callback) or import an outside partial router as app.use(partialRouter)
 
+    app.get('/', home)
     app.use(userRouter);
     app.use(volcanoRouter);
     app.use(CatalogRouter);
-    app.get('/', home)
+    app.get('*', (req, res) => {
+        res.render('404')
+    })
 };
 
 module.exports = { configRoutes }
