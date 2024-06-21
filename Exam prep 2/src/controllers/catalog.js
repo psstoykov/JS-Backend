@@ -1,5 +1,5 @@
 const { isUser } = require('../middlewares/guards');
-const { getAllVolcanos, getVolcanoById, updateVolcano } = require('../services/volcano');
+const { getAllVolcanos, getVolcanoById, updateVolcano, deleteVolcano } = require('../services/volcano');
 const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
 
@@ -23,7 +23,7 @@ CatalogRouter.get('/catalog/:id', async (req, res) => {
     volcano.votes = volcano.voteList.length;
     volcano.hasUser = res.locals.hasUser;
     volcano.isAuthor = req.user?._id == volcano.owner.toString();
-    volcano.hasVoted = volcano.voteList.find(v => v.toString() == req.user?._id);
+    volcano.hasVoted = Boolean(volcano.voteList.find(v => v.toString() == req.user?._id));
 
     res.render('details', { volcano });
 });
@@ -78,6 +78,31 @@ CatalogRouter.post('edit/:id', isUser(),
         }
     }
 )
-//TODO add edit, delete, vote functionality
 
+
+//TODO add vote controller
+
+CatalogRouter.post('/vote/:id', isUser(), async (req, res) => {
+
+})
+CatalogRouter.post('/delete/:id', isUser(), async (req, res) => {
+
+    const volcanoId = req.params.id;
+    const authorId = req.user._id;
+
+    try {
+        await deleteVolcano(volcanoId, authorId);
+    } catch (err) {
+        if (err.message == 'Access denied') {
+            res.redirect('/login')
+        } else {
+            res.render('404');
+        }
+        return;
+    }
+    //TODO check the render here
+    const volcanos = await getAllVolcanos();
+
+    res.render('catalog', { volcanos })
+})
 module.exports = { CatalogRouter }

@@ -46,6 +46,8 @@ userRouter.get('/login', isGuest(), (req, res) => {
 });
 
 userRouter.post('/login', isGuest(),
+    body('email').trim(),
+    body('password').trim(),
     async (req, res) => {
         const { email, password } = req.body;
 

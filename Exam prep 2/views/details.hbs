@@ -13,7 +13,7 @@
                 <p id="elevation"><span>Elevation: {{elevation}}</span></p>
                 <p id="last-eruption">Year of Last Eruption:
                     {{lastEruption}}</p>
-                <p id="votes">Vote's Count: {{voteList.length}}</p>
+                <p id="votes">Vote's Count: {{votes}}</p>
                 <p id="description">{{description}}</p>
             </div>
             {{#if hasUser}}
@@ -28,12 +28,15 @@
                             >Delete</a>
                         </div>
                     {{else}}
-                        <!-- Logged in user who has not yet vote for this volcano-->
-                        <a href="/vote/{{_id}}" class="btn-vote">Vote</a>
 
-                        <!-- Logged in user who has already vote for this volcano-->
-                        <p class="vote-message">You've already voted for this
-                            volcano!</p>
+                        {{#if hasVoted}}
+                            <!-- Logged in user who has already vote for this volcano-->
+                            <p class="vote-message">You've already voted for
+                                this volcano!</p>
+                        {{else}}
+                            <!-- Logged in user who has not yet vote for this volcano-->
+                            <a href="/vote/{{_id}}" class="btn-vote">Vote</a>
+                        {{/if}}
                     {{/if}}
                 </div>
             {{/if}}

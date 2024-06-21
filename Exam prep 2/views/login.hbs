@@ -6,7 +6,7 @@
             type="text"
             name="email"
             placeholder="Email.."
-            value="{{data.email}}"
+            {{#if errors}}value="{{data.email}}"{{/if}}
         />
         <label>Password</label>
         <input type="password" name="password" placeholder="Password.." />

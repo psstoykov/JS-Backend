@@ -53,12 +53,35 @@ async function updateVolcano(volcanoId, volcanoData, userId) {
     return volcano;
 };
 
+//TODO add vote functionality - voteList in the model
+
+async function addVote(volcanoId, userId) {
+    const volcano = Volcano.findById(volcanoId);
+
+    if (!volcano) {
+        throw new Error(`Volcano ${volcanoId} not found`);
+    };
+
+    if (volcano.owner.toString() == userId) {
+        throw new Error('Can\'t vote for your own publication');
+    };
+
+    if (volcano.voteList.find(v => v.toString() == userId)) {
+        throw new Error('You have already liked this volcano');
+    }
+    volcano.voteList.push(userId);
+    await volcano.save();
+
+    return volcano;
+}
+
+
 
 async function deleteVolcano(volcanoId, userId) {
     const volcano = await Volcano.findById(volcanoId);
 
     if (!volcano) {
-        throw new Error(`Movie ${volcanoId} not found`);
+        throw new Error(`Volcano ${volcanoId} not found`);
     }
 
     if (volcano.owner.toString() != userId) {
@@ -73,5 +96,6 @@ module.exports = {
     getVolcanoById,
     createVolcano,
     updateVolcano,
+    addVote,
     deleteVolcano
 }
