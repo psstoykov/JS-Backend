@@ -1,5 +1,5 @@
 const { isUser } = require('../middlewares/guards');
-const { getAllVolcanos, getVolcanoById, updateVolcano, deleteVolcano, getByAuthorId } = require('../services/volcano');
+const { getAllVolcanos, getVolcanoById, updateVolcano, deleteVolcano, getByAuthorId, search } = require('../services/volcano');
 const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
 
@@ -26,6 +26,15 @@ CatalogRouter.get('/catalog/:id', async (req, res) => {
     volcano.hasVoted = Boolean(volcano.voteList.find(v => v.toString() == req.user?._id));
 
     res.render('details', { volcano });
+});
+
+CatalogRouter.get('/search', async (req, res) => {
+
+    const { name, typeVolcano } = req.query;
+
+    const volcanos = await search(name, typeVolcano);
+
+    res.render('search', { data: { name, typeVolcano }, volcanos });
 });
 
 

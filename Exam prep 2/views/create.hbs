@@ -3,7 +3,7 @@
                 <h1>Create Volcano Wiki</h1>
                 <form  method="post">
                     <label>Name:</label>
-                    <input type="text" id="name" name="name" placeholder="..."value="{{volcano.name}}">
+                    <input type="text" id="name" name="name" placeholder="..." {{#if volcano.name}} value="{{volcano.name}}" {{/if}}>
                     <label>Location:</label>
                     <input type="text" id="location" name="location" placeholder="..."value="{{volcano.location}}">
                     <label>Elevation:</label>
@@ -13,7 +13,7 @@
                     <label>Image:</label>
                     <input type="text" id="image" name="image" placeholder="http://..."value="{{volcano.image}}">
                     <label>Volcano Type:</label>
-                    <select id="type" name="typeVolcano">
+                    <select id="type" name="typeVolcano" >
                         <option value="Supervolcanoes">Supervolcanoes</option>
                         <option value="Submarine">Submarine</option>
                         <option value="Subglacial">Subglacial</option>

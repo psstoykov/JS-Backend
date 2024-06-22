@@ -57,7 +57,20 @@ async function updateVolcano(volcanoId, volcanoData, userId) {
     return volcano;
 };
 
-//TODO add vote functionality - voteList in the model
+async function search(name, typeVolcano) {
+
+    const query = {};
+
+    if (name) {
+
+        query.name = new RegExp(name, "i");
+    }
+    if (typeVolcano && typeVolcano != '---') {
+        query.typeVolcano = typeVolcano;
+    }
+
+    return Volcano.find(query).lean()
+}
 
 async function addVote(volcanoId, userId) {
     const volcano = await Volcano.findById(volcanoId);
@@ -78,8 +91,6 @@ async function addVote(volcanoId, userId) {
 
     return volcano;
 }
-
-
 
 async function deleteVolcano(volcanoId, userId) {
     const volcano = await Volcano.findById(volcanoId);
@@ -102,5 +113,6 @@ module.exports = {
     createVolcano,
     updateVolcano,
     addVote,
-    deleteVolcano
+    deleteVolcano,
+    search
 }
