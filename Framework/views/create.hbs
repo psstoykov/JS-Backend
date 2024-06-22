@@ -1,61 +1,30 @@
-<main class="create">
-    <!-- Create Page (Only for logged-in users) -->
-    <section id="create">
-        <div class="form">
-            <h2>Add Stone</h2>
-            <form method="post" class="create-form">
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Name"
-                    value="{{stone.name}}"
-                />
-                <input
-                    type="text"
-                    name="category"
-                    id="category"
-                    placeholder="Category"
-                    value="{{stone.category}}"
-                />
-                <input
-                    type="text"
-                    name="color"
-                    id="color"
-                    placeholder="Color"
-                    value="{{stone.color}}"
-                />
-                <input
-                    type="text"
-                    name="imageURL"
-                    id="stone-img"
-                    placeholder="Image"
-                    value="{{stone.imageURL}}"
-                />
-                <input
-                    type="text"
-                    name="location"
-                    id="location"
-                    placeholder="Location"
-                    value="{{stone.location}}"
-                />
-                <input
-                    type="text"
-                    name="formula"
-                    id="formula"
-                    placeholder="Formula"
-                    value="{{stone.formula}}"
-                />
-                <textarea
-                    id="description"
-                    placeholder="Description..."
-                    name="description"
-                    value="{{stone.description}}"
-                ></textarea>
-
-                <button type="submit">Create</button>
-            </form>
-        </div>
-    </section>
-
-</main>
+        <section id="create-container">
+            <div class="create-container-info">
+                <h1>Create Volcano Wiki</h1>
+                <form  method="post">
+                    <label>Name:</label>
+                    <input type="text" id="name" name="name" placeholder="..." {{#if volcano.name}} value="{{volcano.name}}" {{/if}}>
+                    <label>Location:</label>
+                    <input type="text" id="location" name="location" placeholder="..."value="{{volcano.location}}">
+                    <label>Elevation:</label>
+                    <input type="number" id="elevations" name="elevation" placeholder="..."value="{{volcano.elevation}}">
+                    <label>Year of Last Eruption:</label>
+                    <input type="number" id="last-year-eruption" name="lastEruption" placeholder="..."value="{{volcano.lastEruption}}">
+                    <label>Image:</label>
+                    <input type="text" id="image" name="image" placeholder="http://..."value="{{volcano.image}}">
+                    <label>Volcano Type:</label>
+                    <select id="type" name="typeVolcano" >
+                        <option value="Supervolcanoes">Supervolcanoes</option>
+                        <option value="Submarine">Submarine</option>
+                        <option value="Subglacial">Subglacial</option>
+                        <option value="Mud">Mud</option>
+                        <option value="Stratovolcanoes">Stratovolcanoes</option>
+                        <option value="Shield">Shield</option>
+                    </select>
+                    <label>Description:</label>
+                    <textarea id="description" name="description" placeholder="..."{{#if volcano.description}}{{volcano.description}}{{/if}}></textarea>
+                    <input type="submit" id="btn" value="Submit"></input>
+                </form>
+            </div>
+        </section>
+   

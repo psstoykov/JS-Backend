@@ -4,55 +4,47 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/static/styles/styles.css" />
-        <title>{{title}}</title>
+        <title>Home Page</title>
+        <link rel="stylesheet" href="/static/css/styles.css" />
     </head>
 
     <body>
-
-        {{#if errors}}
-            <div>
-                <div class="errorContainer">
-                    {{#each errors}}
-                        <p>{{this}}</p>
-                    {{/each}}
-                </div>
-            </div>
-        {{/if}}
-
-        <div id="wrapper">
-            <header>
-                <!-- Navigation -->
-                <nav>
-                    <div>
-                        <a href="/">Home</a>
-                        <a href="/dashboard">Dashboard</a>
-                        <a href="/search">Search</a>
-                    </div>
+        <header class="header">
+            <nav>
+                <img src="/static/images/logo.avif" class="logo" />
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/search">Search</a></li>
+                    <li><a href="/catalog">All Volcanoes</a></li>
                     {{#if hasUser}}
-                        <!-- Logged-in users -->
-                        <div class="user">
-                            <a href="/create">Add Stones</a>
-                            <a href="/logout">Logout</a>
-                        </div>
+                        <li><a href="/create">Create Volcano Wiki</a></li>
+                        <li><a href="/logout">Logout</a></li>
                     {{else}}
-                        <!-- Guest users -->
-                        <div class="guest">
-                            <a href="/login">Login</a>
-                            <a href="/register">Register</a>
-                        </div>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
                     {{/if}}
-                </nav>
-            </header>
+                </ul>
+            </nav>
+        </header>
 
-            <main class="home">
-                {{{body}}}
-            </main>
+        <main>
+            {{#if errors}}
+                <div>
+                    <div class="errorContainer">
+                        {{#each errors}}
+                            <p>{{this}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
 
-            <footer>
-                <p>@EarthTreasureVaul</p>
-            </footer>
-        </div>
+            {{{body}}}
+        </main>
+
+        <footer>
+            <p>&copy JS Back-End 2024</p>
+        </footer>
+
     </body>
 
 </html>

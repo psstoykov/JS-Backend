@@ -1,0 +1,44 @@
+<section class="volcano-search">
+    <h1>Search</h1>
+
+    <form class="search-form" method="get" name="search-form">
+        <input
+            type="text"
+            class="search-volcano"
+            name="name"
+            placeholder="Search by Name..."
+            {{#if data.name}} value="{{data.name}}" {{/if}}
+        />
+        <select autocomplete="off" id="type" name="typeVolcano"{{#if data.typeVolcano}}value="{{data.typeVolcano}}"
+        selected="{{data.typeVolcano}}"{{/if}}>
+        {{#if data.typeVolcano}}
+        <option value="{{data.typeVolcano}}" hidden="hidden" selected>{{data.typeVolcano}}</option>
+        {{else}}
+        <option value="---" selected>---</option>
+        {{/if}}
+            <option value="Supervolcanoes">Supervolcanoes</option>
+            <option value="Submarine">Submarine</option>
+            <option value="Subglacial">Subglacial</option>
+            <option value="Mud">Mud</option>
+            <option value="Stratovolcanoes">Stratovolcanoes</option>
+            <option value="Shield">Shield</option>
+        </select>
+        <button type="submit" class="btn-search">Search</button>
+    </form>
+
+{{#if volcanos}}
+     <div class="search-result">
+                <div class="search-list">
+        {{#each volcanos}}
+                 {{>volcano}}
+                    {{/each}}
+                </div>
+
+            </div> 
+
+{{else}}
+    <div class="no-match">
+        <p>No match was found!</p>
+    </div>
+    {{/if}}
+</section>
