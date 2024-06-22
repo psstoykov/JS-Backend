@@ -1,7 +1,6 @@
 const { CatalogRouter } = require("../controllers/catalog");
 const { home } = require("../controllers/home")
 const { userRouter } = require('../controllers/user');
-const { volcanoRouter } = require("../controllers/volcano");
 const { session } = require('../middlewares/session');
 
 

@@ -12,6 +12,7 @@ userRouter.get('/register', isGuest(), (req, res) => {
     res.render('register');
 });
 
+//TODO addapt user controller to specific task spec
 userRouter.post(
     '/register',
     isGuest(),
@@ -66,7 +67,6 @@ userRouter.post('/login', isGuest(),
             return;
         }
     });
-//TODO something doesn't work with logout while at details
 userRouter.get('/logout', (req, res) => {
     res.clearCookie('token');
     res.redirect('/');
