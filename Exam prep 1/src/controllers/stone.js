@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { isUser } = require('../middlewares/guards');
 const { parseError } = require('../util.js');
-const { createStone, deleteStone, getById, editStone } = require('../services/stone.js');
+const { createStone, deleteStone, getById, editStone, likeStone } = require('../services/stone.js');
 
 const stoneRouter = Router();
 
@@ -101,7 +101,19 @@ stoneRouter.get('/delete/:id', isUser(), async (req, res) => {
     res.redirect('/dashboard')
 })
 
-//TODO
+stoneRouter.get('/like/:id', isUser(), async (req, res) => {
+
+    const stoneId = req.params.id;
+    const authorId = req.user._id;
+
+    try {
+        const result = await likeStone(stoneId, authorId);
+        res.redirect('/details/' + stoneId)
+    } catch (err) {
+
+        res.render('details', { errors: parseError(err).errors });
+    }
+});
 
 
 module.exports = { stoneRouter }

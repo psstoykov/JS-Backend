@@ -63,6 +63,30 @@ async function editStone(data, stoneId, userId) {
 
     return stone;
 
+};
+
+async function likeStone(stoneId, userId) {
+
+    const stone = await Stone.findById(stoneId);
+
+    if (!stone) {
+        throw new Error(`Stone ${volcanoId} not found`);
+    };
+
+    if (stone.owner.toString() == userId) {
+        throw new Error('Can\'t vote for your own publication');
+    };
+
+    if (stone.likedList.find(v => v.toString() == userId)) {
+        throw new Error('You have already liked this volcano');
+    };
+
+    stone.likedList.push(userId);
+    await stone.save();
+};
+
+async function getRecent() {
+    return Stone.find().sort({ $natural: -1 }).limit(3).lean();
 }
 
 module.exports = {
@@ -70,5 +94,7 @@ module.exports = {
     getAll,
     getById,
     deleteStone,
-    editStone
+    editStone,
+    likeStone,
+    getRecent
 };
