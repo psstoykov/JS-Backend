@@ -1,54 +1,60 @@
-<main class="create">
-    <!-- Create Page (Only for logged-in users) -->
-    <section id="create">
+<main class="edit">
+    <!-- Edit Page (Only for logged-in users) -->
+    <section id="edit">
         <div class="form">
-            <h2>Add Stone</h2>
-            <form class="create-form" method="post">
-                <input type="text" name="name" id="name" placeholder="Name"
-                {{#if data.name}}value="{{data.name}}"{{/if}} />
+            <h2>Edit item</h2>
+            <form class="edit-form" method="post">
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Name"
+                    value="{{stone.name}}"
+                />
                 <input
                     type="text"
                     name="category"
                     id="category"
                     placeholder="Category"
-                     {{#if data.category}}value="{{data.category}}"{{/if}}
+                    value="{{stone.category}}"
                 />
                 <input
                     type="text"
                     name="color"
                     id="color"
                     placeholder="Color"
-                     {{#if data.color}}value="{{data.color}}"{{/if}}
+                    value="{{stone.color}}"
                 />
                 <input
                     type="text"
                     name="image"
                     id="stone-img"
                     placeholder="Image"
-                     {{#if data.image}}value="{{data.image}}"{{/if}}
+                    value="{{stone.image}}"
                 />
                 <input
                     type="text"
                     name="location"
                     id="location"
                     placeholder="Location"
-                     {{#if data.location}}value="{{data.location}}"{{/if}}
+                    value="{{stone.location}}"
                 />
                 <input
                     type="text"
                     name="formula"
                     id="formula"
                     placeholder="Formula"
-                     {{#if data.formula}}value="{{data.formula}}"{{/if}}
+                    value="{{stone.formula}}"
                 />
                 <textarea
                     id="description"
                     placeholder="Description..."
-                    name="description"   
-                     {{#if data.description}}{{data.formula}}{{/if}}
-                    ></textarea>
+                    name="description"
+                >{{#if
+                        stone.description
+                    }}{{stone.description}}{{/if}}</textarea>
 
-                <button type="submit">Create</button>
+                <button type="submit">Edit</button>
             </form>
         </div>
     </section>

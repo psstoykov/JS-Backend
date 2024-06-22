@@ -1,4 +1,4 @@
-const { CatalogRouter } = require("../controllers/catalog");
+const { CatalogRouter, catalogRouter } = require("../controllers/catalog");
 const { home } = require("../controllers/home");
 const { stoneRouter } = require("../controllers/stone");
 
@@ -12,6 +12,7 @@ function configRoutes(app) {
     app.get('/', home)
     app.use(userRouter);
     app.use(stoneRouter);
+    app.use(catalogRouter)
 
 
     app.get('*', (req, res) => {
