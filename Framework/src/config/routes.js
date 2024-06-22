@@ -6,13 +6,10 @@ const { session } = require('../middlewares/session');
 
 
 function configRoutes(app) {
-    //TODO attach the specific routes from your app
-    //example app.get('/', callback) or import an outside partial router as app.use(partialRouter)
+    //TODO attach the specific routes to the app with app.get or app.use(external router from controller)
 
     app.get('/', home)
     app.use(userRouter);
-    app.use(volcanoRouter);
-    app.use(CatalogRouter);
     app.get('*', (req, res) => {
         res.render('404')
     })

@@ -1,0 +1,4 @@
+-   copy static files
+-   copy layouts
+-   create main layouts
+-   create neccessary partials
