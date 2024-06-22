@@ -2,7 +2,6 @@ const { verifyToken } = require('../services/token');
 
 function session() {
     return function (req, res, next) {
-
         const token = req.cookies.token;
 
         if (token) {
@@ -11,11 +10,14 @@ function session() {
                 req.user = payload;
                 res.locals.hasUser = true;
             } catch (err) {
-                res.clearCookie('token')
+                res.clearCookie('token');
             }
         }
+
         next();
     };
-};
+}
 
-module.exports = { session };
+module.exports = {
+    session
+};

@@ -1,21 +1,17 @@
-const { notFound } = require("../controllers/404");
-
-const { home } = require("../controllers/home");
-const { Router } = require('express');
-const { dashboard, details } = require("../controllers/dashboard");
+const { CatalogRouter } = require("../controllers/catalog");
+const { home } = require("../controllers/home")
 const { userRouter } = require('../controllers/user');
-const { stoneRouter } = require('../controllers/stone')
+const { session } = require('../middlewares/session');
 
-const router = Router();
+
 function configRoutes(app) {
-    app.use(router)
+    //TODO attach the specific routes to the app with app.get or app.use(external router from controller)
 
-    app.get('/', home);
-    app.get('/dashboard', dashboard);
-    app.get('/details/:id', details);
+    app.get('/', home)
     app.use(userRouter);
-    app.use(stoneRouter);
-    app.get('*', notFound);
+    app.get('*', (req, res) => {
+        res.render('404')
+    })
 };
 
 module.exports = { configRoutes }

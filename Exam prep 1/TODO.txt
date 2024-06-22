@@ -1,0 +1,9 @@
+-   copy static files
+-   copy layouts
+-   create main layouts
+-   create necessary partials
+
+-   create necessary controllers
+
+-   create the specific models for mongoose
+-   inspect the services and create the new ones

@@ -1,14 +1,13 @@
-const mongoose = require('mongoose')
-require('../models/user');
-require('../models/stones')
+const mongoose = require('mongoose');
 
 
-const connectionString = 'mongodb://localhost:27017/earth-treasure';
+// TODO name the mongoDB collection
+// const connectionString = 'mongodb://localhost:27017/magma-haven'; 
 
 async function configDatabase() {
     await mongoose.connect(connectionString);
 
-    console.log('Database connected');
-}
+    console.log('Database connected')
+};
 
 module.exports = { configDatabase };
