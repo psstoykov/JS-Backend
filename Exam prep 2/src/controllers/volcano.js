@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { isUser } = require('../middlewares/guards');
 const { parseError } = require('../util.js');
-const { createVolcano, getVolcanoById, getAllVolcanos, updateVolcano, deleteVolcano } = require('../services/volcano.js')
+const { createVolcano, getVolcanoById, getAllVolcanos, updateVolcano, deleteVolcano, addVote } = require('../services/volcano.js')
 
 
 
@@ -56,7 +56,7 @@ volcanoRouter.get('/edit/:id', isUser(), async (req, res) => {
 
 
     res.render('edit', { volcano })
-})
+});
 
 volcanoRouter.post('/edit/:id', isUser(),
     body('name').trim().isLength({ min: 2 }).withMessage('The name should be at least 2 symbols'),
@@ -67,42 +67,38 @@ volcanoRouter.post('/edit/:id', isUser(),
     body('typeVolcano').trim(),
     body('description').trim().isLength({ min: 10 }).withMessage('The description should be at least 10 symbols'),
     async (req, res) => {
-        const authorId = req.user._id;
         const volcanoId = req.params.id;
-
-        // const errors = {
-        //     name: !req.body.name,
-        //     location: !req.body.location,
-        //     elevation: !req.body.elevation,
-        //     lastEruption: !req.body.lastEruption,
-        //     iamge: !req.body.image,
-        //     typeVolcano: !req.body.typeVolcano,
-        //     description: !req.body.description
-        // };
-
-        // if (Object.values(errors).includes(true)) {
-        //     res.render('edit', { volcano: req.body, errors });
-        //     return;
-        // }
+        const authorId = req.user._id;
 
         try {
-            await updateVolcano(volcanoId, req.body, authorId);
-        } catch (err) {
-            if (err.message == 'Access denied') {
-                res.redirect('/login');
-            } else {
-                res.render('404');
+            const validation = validationResult(req);
+
+            if (validation.errors.length) {
+                throw validation.errors;
             }
-            return;
+
+            const result = await updateVolcano(volcanoId, req.body, authorId);
+            res.redirect('/catalog/' + volcanoId)
+        } catch (err) {
+            res.render('edit', { volcano: req.body, errors: parseError(err).errors });
         }
-        const volcano = await getVolcanoById(volcanoId);
-        res.redirect('/catalog/' + volcanoId)
+
     });
 
-volcanoRouter.post('/vote/:id', isUser(), async (req, res) => {
+volcanoRouter.get('/vote/:id', isUser(), async (req, res) => {
+    const volcanoId = req.params.id;
+    const authorId = req.user._id;
+
+    try {
+        const result = await addVote(volcanoId, authorId);
+        res.redirect('/catalog/' + volcanoId)
+    } catch (err) {
+
+        res.render('details', { errors: parseError(err).errors });
+    }
 
 });
-volcanoRouter.post('/delete/:id', isUser(), async (req, res) => {
+volcanoRouter.get('/delete/:id', isUser(), async (req, res) => {
 
     const volcanoId = req.params.id;
     const authorId = req.user._id;
@@ -111,16 +107,11 @@ volcanoRouter.post('/delete/:id', isUser(), async (req, res) => {
         await deleteVolcano(volcanoId, authorId);
     } catch (err) {
         if (err.message == 'Access denied') {
-            res.redirect('/login')
-        } else {
-            res.render('404');
+            res.redirect('/login');
+            return;
         }
-        return;
     }
-    //TODO check the render here
-    const volcanos = await getAllVolcanos();
-
-    res.render('catalog', { volcanos })
+    res.redirect('/catalog');
 });
 
 //TODO create the services for the volcano

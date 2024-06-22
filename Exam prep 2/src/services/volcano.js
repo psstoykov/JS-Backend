@@ -60,7 +60,7 @@ async function updateVolcano(volcanoId, volcanoData, userId) {
 //TODO add vote functionality - voteList in the model
 
 async function addVote(volcanoId, userId) {
-    const volcano = Volcano.findById(volcanoId);
+    const volcano = await Volcano.findById(volcanoId);
 
     if (!volcano) {
         throw new Error(`Volcano ${volcanoId} not found`);
