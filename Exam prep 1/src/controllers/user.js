@@ -16,12 +16,11 @@ userRouter.get('/register', isGuest(), (req, res) => {
 userRouter.post(
     '/register',
     isGuest(),
-    body('username').trim().isLength({ min: 2 }).withMessage('Please enter a valid username'),
     body('email').trim().isEmail().isLength({ min: 10 }).withMessage('Please enter a valid email'),
     body('password').trim().isAlphanumeric().isLength({ min: 4 }).withMessage('Password must be at least 6 characters long and may contain only English letters and numbers'),
     body('repass').trim().custom((value, { req }) => value == req.body.password).withMessage('Passwords don\'t match'),
     async (req, res) => {
-        const { username, email, password } = req.body;
+        const { email, password } = req.body;
 
         try {
             const result = validationResult(req);
@@ -30,13 +29,13 @@ userRouter.post(
                 throw result.errors;
             }
 
-            const user = await register(username, email, password);
+            const user = await register(email, password);
             const token = createToken(user);
 
             res.cookie('token', token, { httpOnly: true });
             res.redirect('/');
         } catch (err) {
-            res.render('register', { data: { username, email }, errors: parseError(err).errors });
+            res.render('register', { data: { email }, errors: parseError(err).errors });
             return;
         }
     }

@@ -1,5 +1,7 @@
 const { CatalogRouter } = require("../controllers/catalog");
-const { home } = require("../controllers/home")
+const { home } = require("../controllers/home");
+const { stoneRouter } = require("../controllers/stone");
+
 const { userRouter } = require('../controllers/user');
 const { session } = require('../middlewares/session');
 
@@ -9,6 +11,9 @@ function configRoutes(app) {
 
     app.get('/', home)
     app.use(userRouter);
+    app.use(stoneRouter);
+
+
     app.get('*', (req, res) => {
         res.render('404')
     })
