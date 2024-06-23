@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { isUser } = require('../middlewares/guards');
 const { parseError } = require('../util.js');
+const { createRecipe } = require('../services/recipe.js');
 
 const recipeRouter = Router();
 
@@ -12,13 +13,11 @@ recipeRouter.get('/create', isUser(), (req, res) => {
 
 recipeRouter.post('/create',
     isUser(),
-    body('name').trim().isLength({ min: 2 }).withMessage('The name should be at least 2 symbols'),
-    body('location').trim().isLength({ min: 3 }).withMessage('The location should be at least 3 symbols'),
-    body('elevation').trim().isInt({ min: 0 }).withMessage('elevation should be at least 0'),
-    body('lastEruption').trim().isInt({ min: 0, max: 2024 }).withMessage('choose betwee 0 and 2024'),
+    body('title').trim().isLength({ min: 2 }).withMessage('The name should be at least 2 symbols'),
+    body('description').trim().isLength({ min: 10, max: 100 }).withMessage('description must be between 10 and 100 characters'),
+    body('ingredients').trim().isLength({ min: 10, max: 200 }).withMessage('ingredients must be between 10 and 200 characters'),
+    body('instructions').trim().isLength({ min: 10 }).withMessage('instructions must be at least 10 characters'),
     body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('invalid URL'),
-    body('typeVolcano').trim(),
-    body('description').trim().isLength({ min: 10 }).withMessage('The description should be at least 10 symbols'),
     async (req, res) => {
         const authorId = req.user._id;
 
@@ -29,10 +28,10 @@ recipeRouter.post('/create',
                 throw validation.errors;
             }
 
-            const result = await createVolcano(req.body, authorId);
-            res.redirect('/');
+            const result = await createRecipe(req.body, authorId);
+            res.redirect('/catalog');
         } catch (err) {
-            res.render('create', { volcano: req.body, errors: parseError(err).errors });
+            res.render('create', { recipe: req.body, errors: parseError(err).errors });
         }
 
     });

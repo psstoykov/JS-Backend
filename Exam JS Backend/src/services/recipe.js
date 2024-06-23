@@ -26,7 +26,7 @@ async function createRecipe(data, authorId) {
         instructions: data.instructions,
         description: data.description,
         image: data.image,
-        owner: data.owner
+        owner: authorId
     });
 
     await recipe.save();
