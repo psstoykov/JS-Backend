@@ -16,27 +16,27 @@ userRouter.get('/register', isGuest(), (req, res) => {
 userRouter.post(
     '/register',
     isGuest(),
-    body('username').trim().isLength({ min: 2 }).withMessage('Please enter a valid username'),
+    body('name').trim().isLength({ min: 2, max: 20 }).withMessage('lenght must be between 2 and 20 characters'),
     body('email').trim().isEmail().isLength({ min: 10 }).withMessage('Please enter a valid email'),
-    body('password').trim().isAlphanumeric().isLength({ min: 4 }).withMessage('Password must be at least 6 characters long and may contain only English letters and numbers'),
+    body('password').trim().isAlphanumeric().isLength({ min: 4 }).withMessage('Password must be at least 4 characters long and may contain only English letters and numbers'),
     body('repass').trim().custom((value, { req }) => value == req.body.password).withMessage('Passwords don\'t match'),
     async (req, res) => {
-        const { username, email, password } = req.body;
+        const { name, email, password } = req.body;
 
+        console.log(req.body)
         try {
             const result = validationResult(req);
 
             if (result.errors.length) {
                 throw result.errors;
             }
-
-            const user = await register(username, email, password);
+            const user = await register(name, email, password);
             const token = createToken(user);
 
             res.cookie('token', token, { httpOnly: true });
             res.redirect('/');
         } catch (err) {
-            res.render('register', { data: { username, email }, errors: parseError(err).errors });
+            res.render('register', { data: { name, email }, errors: parseError(err).errors });
             return;
         }
     }

@@ -1,3 +1,4 @@
+const { create } = require('express-handlebars');
 const { Recipe } = require('../models/recipes');
 
 
@@ -16,6 +17,21 @@ async function getByAuthorId(authorId) {
 };
 
 //TODO create recipe
+
+async function createRecipe(data, authorId) {
+
+    const recipe = new Recipe({
+        title: data.title,
+        ingredients: data.ingredients,
+        instructions: data.instructions,
+        description: data.description,
+        image: data.image,
+        owner: data.owner
+    });
+
+    await recipe.save();
+    return recipe;
+}
 //TODO update recipe
 //TODO delete recipe
 //TODO search recipe
@@ -24,5 +40,6 @@ async function getByAuthorId(authorId) {
 module.exports = {
     getAll,
     getById,
-    getByAuthorId
+    getByAuthorId,
+    createRecipe
 };

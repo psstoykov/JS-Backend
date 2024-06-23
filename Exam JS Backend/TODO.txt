@@ -1,10 +1,5 @@
 
--   create database models and export them
 -   create the necessary services for the app(import model into service)
-
--   copy static files
--   copy layouts
--   create main layouts
 -   create necessary partials
 
 -   create necessary controllers
