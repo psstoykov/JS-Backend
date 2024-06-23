@@ -10,7 +10,7 @@ async function register(username, email, password) {
         err.errors = { email: 'Email is already used' };
         throw err;
     }
-
+    //TODO check if current program has username or not
     const user = new User({
         username,
         email,

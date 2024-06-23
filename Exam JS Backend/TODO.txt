@@ -6,4 +6,4 @@
 -   create necessary controllers
 
 -   create the specific models for mongoose
--   inspect the services and create the new ones
+-   inspect the services and create the new ones - import model to service in order to complete operations

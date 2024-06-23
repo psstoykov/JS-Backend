@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+//TODO check if user model needs username
 const userSchema = new Schema(
     {
         username: {
