@@ -1,5 +1,9 @@
+const { getRecent } = require('../services/recipe')
+
 module.exports = {
     home: async (req, res) => {
-        res.render('home');
+
+        const recipes = await getRecent();
+        res.render('home', { recipes });
     }
 }

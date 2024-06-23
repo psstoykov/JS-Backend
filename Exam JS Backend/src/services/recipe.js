@@ -89,10 +89,12 @@ async function updateRecipe(recipeId, data, userId) {
 
     return recipe;
 };
-//TODO update recipe
-//TODO delete recipe
+
+async function getRecent() {
+    return Recipe.find().sort({ $natural: -1 }).limit(3).lean();
+};
+
 //TODO search recipe
-//TODO show latest 3 recipes
 
 module.exports = {
     getAll,
@@ -101,5 +103,6 @@ module.exports = {
     createRecipe,
     addVote,
     deleteRecipe,
-    updateRecipe
+    updateRecipe,
+    getRecent
 };
