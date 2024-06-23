@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { isUser } = require('../middlewares/guards');
 const { parseError } = require('../util.js');
-const { createRecipe, addVote, deleteRecipe } = require('../services/recipe.js');
+const { createRecipe, addVote, deleteRecipe, getById, updateRecipe } = require('../services/recipe.js');
 
 const recipeRouter = Router();
 
@@ -65,12 +65,55 @@ recipeRouter.get('/delete/:id', isUser(), async (req, res) => {
             res.redirect('/login');
             return;
         }
-    }
+    };
     res.redirect('/catalog');
 });
+
+recipeRouter.get('/edit/:id', isUser(), async (req, res) => {
+    const id = req.params.id;
+
+    const recipe = await getById(id);
+
+    if (!recipe) {
+        res.status(404).render('404');
+        return;
+    }
+
+    if (recipe.owner.toString() != req.user._id) {
+        res.redirect('/login');
+    }
+
+
+    res.render('edit', { recipe })
+});
+
+recipeRouter.post('/edit/:id', isUser(),
+    body('title').trim().isLength({ min: 2 }).withMessage('The name should be at least 2 symbols'),
+    body('description').trim().isLength({ min: 10, max: 100 }).withMessage('description must be between 10 and 100 characters'),
+    body('ingredients').trim().isLength({ min: 10, max: 200 }).withMessage('ingredients must be between 10 and 200 characters'),
+    body('instructions').trim().isLength({ min: 10 }).withMessage('instructions must be at least 10 characters'),
+    body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('invalid URL'),
+    async (req, res) => {
+
+        const recipeId = req.params.id;
+        const authorId = req.user._id;
+
+        try {
+            const validation = validationResult(req);
+
+            if (validation.errors.length) {
+                throw validation.errors;
+            }
+
+            const result = await updateRecipe(recipeId, req.body, authorId);
+            res.redirect('/catalog/' + recipeId)
+        } catch (err) {
+            res.render('edit', { recipe: req.body, errors: parseError(err).errors });
+        }
+
+    });
 
 module.exports = { recipeRouter }
 
 
 //TODO edit
-//TODO delete

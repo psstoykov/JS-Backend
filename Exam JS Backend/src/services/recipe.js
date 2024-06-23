@@ -37,7 +37,7 @@ async function addVote(recipeId, userId) {
     const recipe = await Recipe.findById(recipeId);
 
     if (!recipe) {
-        throw new Error(`Volcano ${recipeId} not found`);
+        throw new Error(`Recipe ${recipeId} not found`);
     };
 
     if (recipe.owner.toString() == userId) {
@@ -58,7 +58,7 @@ async function deleteRecipe(recipeId, userId) {
     const recipe = await Recipe.findById(recipeId);
 
     if (!recipe) {
-        throw new Error(`Volcano ${recipeId} not found`);
+        throw new Error(`Recipe ${recipeId} not found`);
     }
 
     if (recipe.owner.toString() != userId) {
@@ -66,6 +66,28 @@ async function deleteRecipe(recipeId, userId) {
     }
 
     await Recipe.findByIdAndDelete(recipeId);
+};
+
+async function updateRecipe(recipeId, data, userId) {
+    const recipe = await Recipe.findById(recipeId);
+
+    if (!recipe) {
+        throw new Error(`Recipe ${recipeId} not found`);
+    }
+
+    if (recipe.owner.toString() != userId) {
+        throw new Error('Access denied');
+    }
+
+    recipe.title = data.title;
+    recipe.description = data.description;
+    recipe.ingredients = data.ingredients;
+    recipe.instructions = data.instructions;
+    recipe.image = data.image;
+
+    await recipe.save();
+
+    return recipe;
 };
 //TODO update recipe
 //TODO delete recipe
@@ -78,5 +100,6 @@ module.exports = {
     getByAuthorId,
     createRecipe,
     addVote,
-    deleteRecipe
+    deleteRecipe,
+    updateRecipe
 };
