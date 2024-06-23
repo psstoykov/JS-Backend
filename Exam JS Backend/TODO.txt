@@ -1,4 +1,4 @@
--   set database name and enable the connection string;
+
 -   create database models and export them
 -   create the necessary services for the app(import model into service)
 
