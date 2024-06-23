@@ -2,7 +2,7 @@ const { isUser } = require('../middlewares/guards');
 
 const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
-const { getAll, getById } = require('../services/stone');
+const { getAll, getById, search } = require('../services/stone');
 
 
 const catalogRouter = Router();
@@ -28,6 +28,15 @@ catalogRouter.get('/details/:id', async (req, res) => {
 
     res.render('details', { stone })
 });
+
+catalogRouter.get('/search', async (req, res) => {
+
+    const { name } = req.query;
+
+    const stones = await search(name);
+    console.log(stones)
+    res.render('search', { data: { name }, stones })
+})
 
 
 module.exports = { catalogRouter };

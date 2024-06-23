@@ -89,6 +89,16 @@ async function getRecent() {
     return Stone.find().sort({ $natural: -1 }).limit(3).lean();
 }
 
+async function search(name) {
+
+    const query = {};
+
+    if (name) {
+        query.name = new RegExp(name, "i");
+    }
+    return Stone.find(query).lean()
+}
+
 module.exports = {
     createStone,
     getAll,
@@ -96,5 +106,6 @@ module.exports = {
     deleteStone,
     editStone,
     likeStone,
-    getRecent
+    getRecent,
+    search
 };
