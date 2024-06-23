@@ -2,7 +2,7 @@ const { isUser } = require('../middlewares/guards');
 
 const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
-const { getAll, getById } = require('../services/recipe');
+const { getAll, getById, search } = require('../services/recipe');
 
 const catalogRouter = Router();
 
@@ -33,6 +33,14 @@ catalogRouter.get('/catalog/:id', async (req, res) => {
     res.render('details', { recipe });
 });
 
+catalogRouter.get('/search', async (req, res) => {
+
+    const { title } = req.query;
+
+    const recipes = await search(title);
+
+    res.render('search', { data: { title }, recipes });
+})
 
 module.exports = { catalogRouter };
 //TODO create local controller and export local controller

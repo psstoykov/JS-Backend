@@ -94,7 +94,16 @@ async function getRecent() {
     return Recipe.find().sort({ $natural: -1 }).limit(3).lean();
 };
 
-//TODO search recipe
+async function search(title) {
+
+    const query = {};
+
+    if (title) {
+        query.title = new RegExp(title, "i");
+    }
+    return Recipe.find(query).lean();
+}
+
 
 module.exports = {
     getAll,
@@ -104,5 +113,6 @@ module.exports = {
     addVote,
     deleteRecipe,
     updateRecipe,
-    getRecent
+    getRecent,
+    search
 };
