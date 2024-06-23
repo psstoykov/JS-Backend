@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { isUser } = require('../middlewares/guards');
 const { parseError } = require('../util.js');
-const { createRecipe } = require('../services/recipe.js');
+const { createRecipe, addVote, deleteRecipe } = require('../services/recipe.js');
 
 const recipeRouter = Router();
 
@@ -36,9 +36,41 @@ recipeRouter.post('/create',
 
     });
 
+
+recipeRouter.get('/recommend/:id', isUser(), async (req, res) => {
+
+    const recipeId = req.params.id;
+    const authorId = req.user._id;
+
+    //TODO continue the function
+    try {
+        const result = await addVote(recipeId, authorId);
+        res.redirect('/catalog/' + recipeId)
+    } catch (err) {
+
+        res.render('details', { errors: parseError(err).errors });
+    }
+});
+
+
+recipeRouter.get('/delete/:id', isUser(), async (req, res) => {
+
+    const recipeId = req.params.id;
+    const authorId = req.user._id;
+
+    try {
+        await deleteRecipe(recipeId, authorId);
+    } catch (err) {
+        if (err.message == 'Access denied') {
+            res.redirect('/login');
+            return;
+        }
+    }
+    res.redirect('/catalog');
+});
+
 module.exports = { recipeRouter }
 
 
-//TODO create
 //TODO edit
 //TODO delete

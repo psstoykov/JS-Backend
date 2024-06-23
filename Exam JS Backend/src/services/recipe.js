@@ -31,7 +31,42 @@ async function createRecipe(data, authorId) {
 
     await recipe.save();
     return recipe;
-}
+};
+
+async function addVote(recipeId, userId) {
+    const recipe = await Recipe.findById(recipeId);
+
+    if (!recipe) {
+        throw new Error(`Volcano ${recipeId} not found`);
+    };
+
+    if (recipe.owner.toString() == userId) {
+        throw new Error('Can\'t vote for your own publication');
+    };
+
+    if (recipe.recommendedList.find(v => v.toString() == userId)) {
+        throw new Error('You have already recommended this recipe');
+    }
+    recipe.recommendedList.push(userId);
+    await recipe.save();
+
+    return recipe;
+};
+
+
+async function deleteRecipe(recipeId, userId) {
+    const recipe = await Recipe.findById(recipeId);
+
+    if (!recipe) {
+        throw new Error(`Volcano ${recipeId} not found`);
+    }
+
+    if (recipe.owner.toString() != userId) {
+        throw new Error('Access denied');
+    }
+
+    await Recipe.findByIdAndDelete(recipeId);
+};
 //TODO update recipe
 //TODO delete recipe
 //TODO search recipe
@@ -41,5 +76,7 @@ module.exports = {
     getAll,
     getById,
     getByAuthorId,
-    createRecipe
+    createRecipe,
+    addVote,
+    deleteRecipe
 };
